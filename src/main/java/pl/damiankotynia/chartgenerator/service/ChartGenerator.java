@@ -1,7 +1,6 @@
 package pl.damiankotynia.chartgenerator.service;
 
-import com.jogamp.opengl.util.texture.TextureData;
-import org.jzy3d.analysis.AbstractAnalysis;
+import org.jzy3d.chart.Chart;
 import org.jzy3d.chart.factories.AWTChartComponentFactory;
 import org.jzy3d.colors.Color;
 import org.jzy3d.maths.Coord3d;
@@ -9,23 +8,29 @@ import org.jzy3d.plot3d.primitives.Scatter;
 import org.jzy3d.plot3d.rendering.canvas.Quality;
 import org.jzy3d.plot3d.rendering.view.AWTRenderer3d;
 import org.jzy3d.plot3d.rendering.view.modes.ViewPositionMode;
-import pl.damiankotynia.model.ChartConstants;
 import pl.damiankotynia.model.Point;
 
-import  static pl.damiankotynia.model.ChartConstants.MAX_POSITION;
-import  static pl.damiankotynia.model.ChartConstants.MIN_POSITION;
-
 import java.awt.image.BufferedImage;
+
 import java.util.List;
 
+import static pl.damiankotynia.model.ChartConstants.MAX_POSITION;
+import static pl.damiankotynia.model.ChartConstants.MIN_POSITION;
 
-public class ChartGenerator extends AbstractAnalysis {
+public class ChartGenerator {
+
     private List<Point> pointsFromOptimizer;
-    private TextureData screenShot;
+    private Chart chart;
 
     public ChartGenerator(List<Point> pointsFromOptimizer) {
         this.pointsFromOptimizer = pointsFromOptimizer;
     }
+
+
+    public ChartGenerator(){
+
+    }
+
 
     public List<Point> getPointsFromOptimizer() {
         return pointsFromOptimizer;
@@ -35,16 +40,9 @@ public class ChartGenerator extends AbstractAnalysis {
         this.pointsFromOptimizer = pointsFromOptimizer;
     }
 
-    public TextureData getScreenShot() {
-        return screenShot;
-    }
 
-    public void setScreenShot(TextureData screenShot) {
-        this.screenShot = screenShot;
-    }
 
-    @Override
-    public void init(){
+    public BufferedImage getChart(){
         float x;
         float y;
         float z = 0.0f;
@@ -67,18 +65,30 @@ public class ChartGenerator extends AbstractAnalysis {
         Scatter scatter = new Scatter(points);
         scatter.setWidth(4.2f);
 
-        chart = AWTChartComponentFactory.chart(Quality.Fastest, "offscreen");
+        chart = AWTChartComponentFactory.chart(Quality.Advanced, "offscreen");
 
         chart.getScene().add(scatter);
         chart.setViewMode(ViewPositionMode.TOP);
+        chart.screenshot();
+        //chart.getCanvas().screenshot();
 
         AWTRenderer3d renderer3d =(AWTRenderer3d) chart.getCanvas().getRenderer();
+
+
         BufferedImage image = renderer3d.getLastScreenshotImage();
 
+    /*    File qwe = new File(UUID.randomUUID() + ".jpg");
+        try {
+            ImageIO.write(image, "jpg", qwe);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }*/
+
+        return image;
     }
 
     private void setBoundaryPoints(float z, Coord3d[] points, Color[] colors, int i) {
-        points[i] = new Coord3d(ChartConstants.MAX_POSITION, MAX_POSITION, z);
+        points[i] = new Coord3d(MAX_POSITION, MAX_POSITION, z);
         colors[i] = Color.BLACK;
         i++;
         points[i] = new Coord3d(MIN_POSITION, MIN_POSITION, z);
@@ -90,5 +100,6 @@ public class ChartGenerator extends AbstractAnalysis {
         points[i] = new Coord3d(MIN_POSITION, MAX_POSITION, z);
         colors[i] = Color.BLACK;
     }
+
 
 }

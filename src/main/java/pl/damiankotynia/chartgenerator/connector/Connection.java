@@ -4,8 +4,8 @@ package pl.damiankotynia.chartgenerator.connector;
 import pl.damiankotynia.model.Point;
 import pl.damiankotynia.model.Response;
 import pl.damiankotynia.chartgenerator.service.ChartGenerator;
-import pl.damiankotynia.chartgenerator.service.ChartGeneratorQ;
 
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -13,6 +13,7 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import static pl.damiankotynia.chartgenerator.service.Utils.CONNECTION_LOGGER;
 
@@ -22,9 +23,9 @@ public class Connection implements Runnable {
     private int clientNumber;
     private ObjectInputStream inputStream = null;
     private ObjectOutputStream outputStream = null;
-    private ChartGenerator chartGenerator;
     private List<Connection> connectionList;
     private boolean running;
+    private ChartGenerator chartGenerator;
 
     public Connection(Socket socket, int client, List<Connection> connectionList) {
         System.out.println(CONNECTION_LOGGER + "New Connection");
@@ -32,37 +33,27 @@ public class Connection implements Runnable {
         this.socket = socket;
         this.connectionList = connectionList;
         this.running = true;
+        this.chartGenerator = new ChartGenerator();
         try {
             this.outputStream = new ObjectOutputStream(socket.getOutputStream());
             this.inputStream = new ObjectInputStream(socket.getInputStream());
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
     }
 
     public void run() {
-        ChartGeneratorQ chartGeneratorQ = new ChartGeneratorQ();
+
         while (running) {
             try {
                 Object request = inputStream.readObject();
-                System.out.println(CONNECTION_LOGGER + request.toString());
+                System.out.println(CONNECTION_LOGGER + "new Request, client id: " + clientNumber);
                 Response response = null;
                 List<Point>qwe = new ArrayList<>((ArrayList)request);
-                try {
-                    //AnalysisLauncher.open(new ChartGenerator(qwe));
-                    chartGeneratorQ.setPointsFromOptimizer(qwe);
-                    chartGeneratorQ.getChart();
 
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-
-
-
-
+                chartGenerator.setPointsFromOptimizer(qwe);
+                BufferedImage screenshot = chartGenerator.getChart();
+                sendMessage(screenshot);
 
             } catch (SocketException e) {
                 System.out.println(CONNECTION_LOGGER + "Zerwano połączenie");
