@@ -1,4 +1,4 @@
-package pl.damiankotynia.service;
+package pl.damiankotynia.chartgenerator.service;
 
 
 public class Utils {

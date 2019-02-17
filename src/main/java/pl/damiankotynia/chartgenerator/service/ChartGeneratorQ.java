@@ -1,6 +1,5 @@
-package pl.damiankotynia.service;
+package pl.damiankotynia.chartgenerator.service;
 
-import com.jogamp.opengl.util.texture.TextureData;
 import org.jzy3d.chart.Chart;
 import org.jzy3d.chart.factories.AWTChartComponentFactory;
 import org.jzy3d.colors.Color;
@@ -12,10 +11,13 @@ import org.jzy3d.plot3d.rendering.view.modes.ViewPositionMode;
 import pl.damiankotynia.model.Point;
 
 import javax.imageio.ImageIO;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
 
 import static pl.damiankotynia.model.ChartConstants.MAX_POSITION;
 import static pl.damiankotynia.model.ChartConstants.MIN_POSITION;
@@ -45,7 +47,7 @@ public class ChartGeneratorQ {
 
 
 
-    public void getChart(){
+    public BufferedImage getChart(){
         float x;
         float y;
         float z = 0.0f;
@@ -68,23 +70,25 @@ public class ChartGeneratorQ {
         Scatter scatter = new Scatter(points);
         scatter.setWidth(4.2f);
 
-        chart = AWTChartComponentFactory.chart(Quality.Fastest, "offscreen");
+        chart = AWTChartComponentFactory.chart(Quality.Advanced, "offscreen");
 
         chart.getScene().add(scatter);
         chart.setViewMode(ViewPositionMode.TOP);
-        chart.screenshot();
+
+        chart.getCanvas().screenshot();
 
         AWTRenderer3d renderer3d =(AWTRenderer3d) chart.getCanvas().getRenderer();
-        BufferedImage image = renderer3d.getLastScreenshotImage();
-        File asd = new File("qwe.jpg");
 
+
+        BufferedImage image = renderer3d.getLastScreenshotImage();
+        File qwe = new File(UUID.randomUUID() + ".jpg");
         try {
-            ImageIO.write(image, "jpg", asd);
+            ImageIO.write(image, "jpg", qwe);
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-
+        return image;
     }
 
     private void setBoundaryPoints(float z, Coord3d[] points, Color[] colors, int i) {

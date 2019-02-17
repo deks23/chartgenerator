@@ -1,4 +1,4 @@
-package pl.damiankotynia;
+package pl.damiankotynia.chartgenerator;
 
 
 

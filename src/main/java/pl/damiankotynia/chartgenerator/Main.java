@@ -1,8 +1,6 @@
-package pl.damiankotynia;
+package pl.damiankotynia.chartgenerator;
 
-import pl.damiankotynia.connector.Connector;
-
-
+import pl.damiankotynia.chartgenerator.connector.Connector;
 
 
 public class Main {

@@ -1,10 +1,10 @@
-package pl.damiankotynia.connector;
+package pl.damiankotynia.chartgenerator.connector;
 
-import org.jzy3d.analysis.AnalysisLauncher;
+
 import pl.damiankotynia.model.Point;
 import pl.damiankotynia.model.Response;
-import pl.damiankotynia.service.ChartGenerator;
-import pl.damiankotynia.service.ChartGeneratorQ;
+import pl.damiankotynia.chartgenerator.service.ChartGenerator;
+import pl.damiankotynia.chartgenerator.service.ChartGeneratorQ;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -14,7 +14,8 @@ import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static pl.damiankotynia.service.Utils.CONNECTION_LOGGER;
+import static pl.damiankotynia.chartgenerator.service.Utils.CONNECTION_LOGGER;
+
 
 public class Connection implements Runnable {
     private Socket socket;

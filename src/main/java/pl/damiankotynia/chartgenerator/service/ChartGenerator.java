@@ -1,15 +1,15 @@
-package pl.damiankotynia.service;
+package pl.damiankotynia.chartgenerator.service;
 
 import com.jogamp.opengl.util.texture.TextureData;
 import org.jzy3d.analysis.AbstractAnalysis;
 import org.jzy3d.chart.factories.AWTChartComponentFactory;
 import org.jzy3d.colors.Color;
-import org.jzy3d.javafx.JavaFXChartFactory;
 import org.jzy3d.maths.Coord3d;
 import org.jzy3d.plot3d.primitives.Scatter;
 import org.jzy3d.plot3d.rendering.canvas.Quality;
 import org.jzy3d.plot3d.rendering.view.AWTRenderer3d;
 import org.jzy3d.plot3d.rendering.view.modes.ViewPositionMode;
+import pl.damiankotynia.model.ChartConstants;
 import pl.damiankotynia.model.Point;
 
 import  static pl.damiankotynia.model.ChartConstants.MAX_POSITION;
@@ -17,7 +17,6 @@ import  static pl.damiankotynia.model.ChartConstants.MIN_POSITION;
 
 import java.awt.image.BufferedImage;
 import java.util.List;
-import java.util.Random;
 
 
 public class ChartGenerator extends AbstractAnalysis {
@@ -79,7 +78,7 @@ public class ChartGenerator extends AbstractAnalysis {
     }
 
     private void setBoundaryPoints(float z, Coord3d[] points, Color[] colors, int i) {
-        points[i] = new Coord3d(MAX_POSITION, MAX_POSITION, z);
+        points[i] = new Coord3d(ChartConstants.MAX_POSITION, MAX_POSITION, z);
         colors[i] = Color.BLACK;
         i++;
         points[i] = new Coord3d(MIN_POSITION, MIN_POSITION, z);

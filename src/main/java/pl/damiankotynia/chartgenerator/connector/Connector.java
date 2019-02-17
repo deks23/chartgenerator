@@ -1,4 +1,4 @@
-package pl.damiankotynia.connector;
+package pl.damiankotynia.chartgenerator.connector;
 
 import java.io.IOException;
 import java.net.ServerSocket;
