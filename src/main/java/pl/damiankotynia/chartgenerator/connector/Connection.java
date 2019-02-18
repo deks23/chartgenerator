@@ -5,6 +5,7 @@ import pl.damiankotynia.model.Point;
 import pl.damiankotynia.model.Response;
 import pl.damiankotynia.chartgenerator.service.ChartGenerator;
 
+import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -53,7 +54,7 @@ public class Connection implements Runnable {
 
                 chartGenerator.setPointsFromOptimizer(qwe);
                 BufferedImage screenshot = chartGenerator.getChart();
-                sendMessage(screenshot);
+                sendMessageImage(screenshot);
 
             } catch (SocketException e) {
                 System.out.println(CONNECTION_LOGGER + "Zerwano połączenie");
@@ -81,4 +82,14 @@ public class Connection implements Runnable {
         }
     }
 
+    public void sendMessageImage(BufferedImage image) {
+        try {
+            synchronized (outputStream) {
+                outputStream.defaultWriteObject();
+                ImageIO.write(image, "png", outputStream);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
