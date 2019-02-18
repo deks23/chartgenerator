@@ -1,25 +1,20 @@
 package pl.damiankotynia.model;
 
-import java.io.File;
-
 public class Response {
-    private File image;
-    private ResponseStatus responseStatus;
+    private ResponseType responseType;
 
-
-    public File getImage() {
-        return image;
+    public Response() {
     }
 
-    public void setImage(File image) {
-        this.image = image;
+    public Response(ResponseType responseType) {
+        this.responseType = responseType;
     }
 
-    public ResponseStatus getResponseStatus() {
-        return responseStatus;
+    public ResponseType getResponseType() {
+        return responseType;
     }
 
-    public void setResponseStatus(ResponseStatus responseStatus) {
-        this.responseStatus = responseStatus;
+    public void setResponseType(ResponseType responseType) {
+        this.responseType = responseType;
     }
 }

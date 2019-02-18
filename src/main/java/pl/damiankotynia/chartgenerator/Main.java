@@ -1,6 +1,7 @@
 package pl.damiankotynia.chartgenerator;
 
 import pl.damiankotynia.chartgenerator.connector.Connector;
+import pl.damiankotynia.model.ChartGeneratorResponse;
 
 
 public class Main {
@@ -17,7 +18,6 @@ public class Main {
         } catch (Exception e) {
             e.printStackTrace();
         }*/
-
 
 
         int port = 4443;
