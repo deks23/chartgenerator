@@ -1,13 +1,12 @@
 package pl.damiankotynia.chartgenerator.connector;
 
 
+import pl.damiankotynia.chartgenerator.service.ChartGenerator;
 import pl.damiankotynia.model.ChartGeneratorResponse;
 import pl.damiankotynia.model.Point;
 import pl.damiankotynia.model.Response;
-import pl.damiankotynia.chartgenerator.service.ChartGenerator;
 import pl.damiankotynia.model.ResponseType;
 
-import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -16,7 +15,6 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import static pl.damiankotynia.chartgenerator.service.Utils.CONNECTION_LOGGER;
 
@@ -52,7 +50,7 @@ public class Connection implements Runnable {
                 Object request = inputStream.readObject();
                 System.out.println(CONNECTION_LOGGER + "new Request, client id: " + clientNumber);
                 Response response = null;
-                List<Point>qwe = new ArrayList<>((ArrayList)request);
+                List<Point> qwe = new ArrayList<>((ArrayList) request);
 
                 chartGenerator.setPointsFromOptimizer(qwe);
                 BufferedImage screenshot = chartGenerator.getChart();
@@ -61,24 +59,25 @@ public class Connection implements Runnable {
 
             } catch (SocketException e) {
                 System.out.println(CONNECTION_LOGGER + "Zerwano połączenie");
+                e.printStackTrace();
                 running = !running;
                 connectionList.remove(this);
             } catch (IOException e) {
                 System.out.println(CONNECTION_LOGGER + "Zerwano połączenie2");
+                e.printStackTrace();
                 running = !running;
                 connectionList.remove(this);
             } catch (ClassNotFoundException e) {
                 System.out.println(CONNECTION_LOGGER + "Niepoprawny format zapytania");
-            }finally {
-                try {
-                    outputStream.close();
-                    inputStream.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
             }
         }
-
+        try {
+            System.out.println("Zamykam połączenie");
+            outputStream.close();
+            inputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 
