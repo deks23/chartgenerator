@@ -4,5 +4,7 @@ import java.io.Serializable;
 
 public enum ResponseType implements Serializable {
     CORRECT,
-    FAILED
+    FAILED,
+    FINISHED,
+    IMAGE
 }

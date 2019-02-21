@@ -1,7 +1,10 @@
 package pl.damiankotynia.model;
 
-public class Response {
+import java.io.Serializable;
+
+public class Response implements Serializable {
     private ResponseType responseType;
+    private String message;
 
     public Response() {
     }
@@ -16,5 +19,14 @@ public class Response {
 
     public void setResponseType(ResponseType responseType) {
         this.responseType = responseType;
+    }
+
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 }
