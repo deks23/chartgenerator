@@ -69,6 +69,13 @@ public class Connection implements Runnable {
                 connectionList.remove(this);
             } catch (ClassNotFoundException e) {
                 System.out.println(CONNECTION_LOGGER + "Niepoprawny format zapytania");
+            }finally {
+                try {
+                    outputStream.close();
+                    inputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
 
